@@ -131,19 +131,14 @@
       Comunidade brasileira de autores de jogos de tabuleiro modernos.<br>Somos um grupo aberto, gratuito, coletivo e colaborativo.</p>
   </header>
 
-  <section id="encontros">
-    <h2>Próximos Encontros</h2>
-    <div class="info-card">
-      <p><strong>📅 Data:</strong> Todos os sábados às 10:30h</p>
-      <p><strong>📍 Local:</strong> RED Jogos - Av. Treze de Maio, 23 - Loja 2508 - Centro, Rio de Janeiro - RJ</p>
-      <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!..."></iframe> -->
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.1114489186775!2d-43.17991362386842!3d-22.90925977925336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997f61003320d5%3A0xb4c5c1b3cafe0342!2sRED%20jogos!5e0!3m2!1spt-BR!2sbr!4v1761092520095!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-  </section>
-
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Buscar por autor ou jogo..." oninput="filtrar()">
+    <input type="text" id="searchInput" placeholder="Buscar por autor, jogo ou eventos..." oninput="filtrar()">
   </div>
+
+  <section id="encontros">
+    <h2>Encontros de Playtest</h2>
+    <div class="grid" id="lista-encontros"></div>
+  </section>
 
   <section id="prototipos">
     <h2>Protótipos</h2>
@@ -163,10 +158,10 @@
   <footer>
     <p>Oficina do Playtest</p>
     <p>
-      <a href="#">Instagram</a> |
-      <a href="#">Discord</a> |
-      <a href="#">Facebook</a> |
-      <a href="#">Email</a>
+      <a href="https://www.instagram.com/oficinadoplaytest/" target="_blank">Instagram</a> |
+      <a href="https://discord.gg/5dN33M4xbd" target="_blank">Discord</a> |
+      <a href="https://www.facebook.com/groups/OficinadoPlaytest/" target="_blank">Facebook</a> |
+      <a href="#" target="_blank">Contato</a>
     </p>
   </footer>
 
@@ -175,6 +170,7 @@
 
   <script>
     // Substitua pelos seus links de planilhas
+    const sheetEncontros = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8w4hSCmG1ehAFVV86xrgQdVHjusAOfeBCBcE1d7AHa2a8l3nEMHFv9Yin3ApmzETVH9hGaSQI_59J/pub?output=csv";
     const sheetPrototipos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQc769I0vqguohlzWJxM9CtTEGzbF_2r0S37TkY-4FJ5jtCSvuF8gOR8AW92SRyVRh2xjHw8XaajLBx/pub?output=csv";
     const sheetFinanciamento = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQpP-CQFhmj-0XH7Pp4aUalXf44js1xbXAcZjnmJk1lQRdSyLVYEU6kIZEQ5sv-hEcdJ-BAiXBnDH0W/pub?output=csv";
     const sheetEventos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTh7iBk8uRDDD1iLaG2q4PauQCQSkosEnk-7QRuE4kIh6IPlBZM_e0gKBzS-tXdtw1Es0bjygjp8Uw/pub?output=csv";
@@ -275,7 +271,41 @@
       });
     }
 
+    // Cards de Encontros de Playtest puxando da planilha/CSV
+    async function carregarCSVp(url, containerId) {
+      const res = await fetch(url);
+      const text = await res.text();
+      const linhas = Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true
+    });
+      const dados = linhas.data.sort((a, b) => {
+      return (a.nome || "").localeCompare(b.nome || "", "pt-BR", { sensitivity: "base" });
+    });
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      dados.forEach(l => {
+      const { thumb, nome, data, horario, local, descricao, link } = l;
+        if (!nome) return;
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${thumb || 'semimagem.png'}" alt="">
+          <div class="card-content">
+            <h3>${nome}</h3>
+            ${data ? `<p>${data}` : "<p>10 hs"}
+            ${horario ? `${horario}</p>` : "</p>"}
+            <p>${descricao || ""}</p>
+            ${local ? `<p>${local}</p>` : ""}
+            ${link ? `<a href="${link}" target="_blank">Ver mais</a>` : ""}
+          </div>`;
+        container.appendChild(card);
+      });
+    }
+
     // Carregar todas as seções
+    carregarCSVp(sheetEncontros, "lista-encontros");
     carregarCSV(sheetPrototipos, "lista-prototipos");
     carregarCSV(sheetFinanciamento, "lista-financiamento");
     carregarCSVe(sheetEventos, "lista-eventos");
