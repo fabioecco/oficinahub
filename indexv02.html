@@ -170,6 +170,9 @@
     </p>
   </footer>
 
+  <!-- Papa Parse -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
   <script>
     // Substitua pelos seus links de planilhas
     const sheetPrototipos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQc769I0vqguohlzWJxM9CtTEGzbF_2r0S37TkY-4FJ5jtCSvuF8gOR8AW92SRyVRh2xjHw8XaajLBx/pub?output=csv";
@@ -180,17 +183,20 @@
     async function carregarCSV(url, containerId) {
       const res = await fetch(url);
       const text = await res.text();
-      const linhas = text.split("\n").slice(1); // Ignora cabeçalho
+      const linhas = Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true
+    });
       const container = document.getElementById(containerId);
       container.innerHTML = "";
 
-      linhas.forEach(l => {
-        const [thumb, nome, autor, descricao, link] = l.split(",");
+      linhas.data.forEach(l => {
+      const { thumb, nome, autor, descricao, link } = l;
         if (!nome) return;
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <img src="${thumb || 'https://via.placeholder.com/400x200?text=Sem+Imagem'}" alt="">
+          <img src="${thumb || 'semimagem.png'}" alt="">
           <div class="card-content">
             <h3>${nome}</h3>
             ${autor ? `<p>${autor}</p>` : ""}
@@ -209,8 +215,8 @@
       const container = document.getElementById(containerId);
       container.innerHTML = "";
 
-      linhas.forEach(l => {
-        const [thumb, nome, data, horario, local, descricao, link] = l.split(",");
+      linhas.data.forEach(l => {
+      const { thumb, nome, autor, descricao, link } = l;
         if (!nome) return;
         const card = document.createElement("div");
         card.className = "card";
