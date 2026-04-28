@@ -122,9 +122,93 @@
       border-radius: 8px;
       margin-top: 1rem;
     }
+    .menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  z-index: 1000;
+  border-bottom: 1px solid #333;
+}
+
+.menu-logo {
+  height: 40px;
+}
+
+.menu-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.menu-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.menu-links a:hover {
+  color: var(--accent);
+}
+
+/* Botão mobile */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.5rem;
+}
+
+/* Espaço pra compensar menu fixo */
+body {
+  padding-top: 70px;
+}
+
+/* Responsivo */
+@media (max-width: 700px) {
+  .menu-links {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: var(--card-bg);
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .menu-links a {
+    padding: 0.5rem 0;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .menu-links.ativo {
+    display: flex;
+  }
+}
   </style>
 </head>
 <body>
+
+  <nav class="menu">
+  <img src="oficinalogo.png" class="menu-logo" alt="Logo">
+
+  <div class="menu-links" id="menuLinks">
+    <a href="#encontros">Encontros</a>
+    <a href="#prototipos">Protótipos</a>
+    <a href="#financiamento">Financiamento</a>
+    <a href="#eventos">Eventos</a>
+  </div>
+
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+</nav>
 
   <header>
     <p><img src="oficinalogo.png" alt="" width="400" height="auto"><br>
@@ -318,6 +402,10 @@
         card.style.display = texto.includes(termo) ? "block" : "none";
       });
     }
+
+    function toggleMenu() {
+  document.getElementById("menuLinks").classList.toggle("ativo");
+}
   </script>
 </body>
 </html>
