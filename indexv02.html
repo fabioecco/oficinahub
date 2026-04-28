@@ -122,6 +122,7 @@
       border-radius: 8px;
       margin-top: 1rem;
     }
+
     .menu {
   position: fixed;
   top: 0;
@@ -137,6 +138,7 @@
 
 .menu-logo {
   height: 40px;
+  object-fit: contain;
 }
 
 .menu-links {
@@ -150,48 +152,42 @@
   font-weight: bold;
 }
 
-.menu-links a:hover {
-  color: var(--accent);
-}
-
-/* Botão mobile */
+/* botão */
 .menu-toggle {
   display: none;
   background: none;
   border: none;
   color: var(--text);
   font-size: 1.5rem;
+  cursor: pointer;
 }
 
-/* Espaço pra compensar menu fixo */
-body {
-  padding-top: 70px;
-}
+/* comportamento RESPONSIVO REAL */
+@media (max-width: 900px) {
+  .menu-toggle {
+    display: block;
+  }
 
-/* Responsivo */
-@media (max-width: 700px) {
   .menu-links {
     display: none;
     position: absolute;
     top: 60px;
-    left: 0;
+    right: 0;
     width: 100%;
     background: var(--card-bg);
     flex-direction: column;
-    padding: 1rem;
-  }
-
-  .menu-links a {
-    padding: 0.5rem 0;
-  }
-
-  .menu-toggle {
-    display: block;
+    align-items: center;
+    padding: 1rem 0;
   }
 
   .menu-links.ativo {
     display: flex;
   }
+}
+
+/* evita conteúdo ficar escondido atrás do menu */
+body {
+  padding-top: 70px;
 }
   </style>
 </head>
