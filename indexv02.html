@@ -210,7 +210,7 @@
       container.innerHTML = "";
 
       linhas.forEach(l => {
-        const [thumb, nome, data, local, descricao, link] = l.split(",");
+        const [thumb, nome, data, horario, local, descricao, link] = l.split(",");
         if (!nome) return;
         const card = document.createElement("div");
         card.className = "card";
@@ -218,9 +218,10 @@
           <img src="${thumb || 'https://via.placeholder.com/400x200?text=Sem+Imagem'}" alt="">
           <div class="card-content">
             <h3>${nome}</h3>
-            ${data ? `<p>${data}</p>` : ""}
-            ${local ? `<p>${local}</p>` : ""}
+            ${data ? `<p>${data}` : "<p>10 hs"}
+            ${horario ? `${horario}</p>` : "</p>"}
             <p>${descricao || ""}</p>
+            ${local ? `<p>${local}</p>` : ""}
             ${link ? `<a href="${link}" target="_blank">Ver mais</a>` : ""}
           </div>`;
         container.appendChild(card);
