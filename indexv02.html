@@ -150,9 +150,9 @@
     <div class="grid" id="lista-prototipos"></div>
   </section>
 
-  <section id="publicados">
-    <h2>Jogos Publicados</h2>
-    <div class="grid" id="lista-publicados"></div>
+  <section id="financiamento">
+    <h2>Jogos em Financiamento</h2>
+    <div class="grid" id="lista-financiamento"></div>
   </section>
 
   <section id="eventos">
@@ -176,10 +176,10 @@
   <script>
     // Substitua pelos seus links de planilhas
     const sheetPrototipos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQc769I0vqguohlzWJxM9CtTEGzbF_2r0S37TkY-4FJ5jtCSvuF8gOR8AW92SRyVRh2xjHw8XaajLBx/pub?output=csv";
-    const sheetPublicados = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSqmKUATMpKeeFJMjg5WVm3grVj2EguvRvp-J4pxN9rASP2Jv1_JhH19YbBMVm8DG7m2l3dz9pB1Q0Y/pub?output=csv";
+    const sheetFinanciamento = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQpP-CQFhmj-0XH7Pp4aUalXf44js1xbXAcZjnmJk1lQRdSyLVYEU6kIZEQ5sv-hEcdJ-BAiXBnDH0W/pub?output=csv";
     const sheetEventos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTh7iBk8uRDDD1iLaG2q4PauQCQSkosEnk-7QRuE4kIh6IPlBZM_e0gKBzS-tXdtw1Es0bjygjp8Uw/pub?output=csv";
 
-    // Cards de Prototipos e Publicados puxando da planilha/CSV
+    // Cards de Prototipos e Financiamentos puxando da planilha/CSV
     async function carregarCSV(url, containerId) {
       const res = await fetch(url);
       const text = await res.text();
@@ -269,7 +269,7 @@
 
     // Carregar todas as seções
     carregarCSV(sheetPrototipos, "lista-prototipos");
-    carregarCSV(sheetPublicados, "lista-publicados");
+    carregarCSV(sheetFinanciamento, "lista-financiamento");
     carregarCSVe(sheetEventos, "lista-eventos");
 
     // Função de filtro por autor ou jogo
