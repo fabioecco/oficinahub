@@ -245,7 +245,9 @@
       const container = document.getElementById(containerId);
       container.innerHTML = "";
 
-      linhas.data.forEach(l => {
+      const hoje = new Date();
+
+      dados.forEach(l => {
       const { thumb, nome, data, horario, local, descricao, link } = l;
         if (!nome) return;
         const card = document.createElement("div");
