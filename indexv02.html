@@ -211,7 +211,10 @@
     async function carregarCSVe(url, containerId) {
       const res = await fetch(url);
       const text = await res.text();
-      const linhas = text.split("\n").slice(1); // Ignora cabeçalho
+      const linhas = Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true
+    });
       const container = document.getElementById(containerId);
       container.innerHTML = "";
 
