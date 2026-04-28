@@ -216,7 +216,7 @@
       container.innerHTML = "";
 
       linhas.data.forEach(l => {
-      const { thumb, nome, autor, descricao, link } = l;
+      const { thumb, nome, data, horario, local, descricao, link } = l;
         if (!nome) return;
         const card = document.createElement("div");
         card.className = "card";
