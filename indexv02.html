@@ -237,10 +237,18 @@
       return { ...l, dataObj: parseData(l.data) };
     })
     .sort((a, b) => {
-      if (!a.dataObj) return 1;
-      if (!b.dataObj) return -1;
-      return a.dataObj - b.dataObj;
-    });
+    const hoje = new Date();
+
+    const aPassado = a.dataObj && a.dataObj < hoje;
+    const bPassado = b.dataObj && b.dataObj < hoje;
+
+    // Passados vão pro final
+    if (aPassado && !bPassado) return 1;
+    if (!aPassado && bPassado) return -1;
+
+    // Dentro do mesmo grupo, ordena por data
+    return (a.dataObj || 0) - (b.dataObj || 0);
+  });
 
       const container = document.getElementById(containerId);
       container.innerHTML = "";
