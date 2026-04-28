@@ -187,10 +187,13 @@
       header: true,
       skipEmptyLines: true
     });
+      const dados = linhas.data.sort((a, b) => {
+      return (a.nome || "").localeCompare(b.nome || "", "pt-BR", { sensitivity: "base" });
+    });
       const container = document.getElementById(containerId);
       container.innerHTML = "";
 
-      linhas.data.forEach(l => {
+      dados.forEach(l => {
       const { thumb, nome, autor, descricao, link } = l;
         if (!nome) return;
         const card = document.createElement("div");
@@ -215,6 +218,30 @@
       header: true,
       skipEmptyLines: true
     });
+
+    // Função para converter DD/MM/AAAA em Date
+  function parseData(dataStr) {
+    if (!dataStr) return null;
+    const partes = dataStr.split("/");
+    if (partes.length === 3) {
+      const [dia, mes, ano] = partes;
+      return new Date(ano, mes - 1, dia);
+    }
+    const d = new Date(dataStr);
+    return isNaN(d) ? null : d;
+  }
+
+  // Ordenar por data
+  const dados = linhas.data
+    .map(l => {
+      return { ...l, dataObj: parseData(l.data) };
+    })
+    .sort((a, b) => {
+      if (!a.dataObj) return 1;
+      if (!b.dataObj) return -1;
+      return a.dataObj - b.dataObj;
+    });
+
       const container = document.getElementById(containerId);
       container.innerHTML = "";
 
@@ -224,7 +251,8 @@
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <img src="${thumb || 'semimagem.png'}" alt="">
+          <img src="${thumb || 'semimagem.png'}" 
+     style="${l.dataObj && l.dataObj < hoje ? 'filter: grayscale(100%); opacity: 0.6;' : ''}">
           <div class="card-content">
             <h3>${nome}</h3>
             ${data ? `<p>${data}` : "<p>10 hs"}
