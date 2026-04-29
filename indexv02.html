@@ -184,6 +184,16 @@ body {
   white-space: pre-line;
 }
 
+.modal-content a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.modal-content a:hover {
+  text-decoration: underline;
+}
+
 .modal-content img {
   width: 100%;
   border-radius: 6px;
@@ -417,10 +427,8 @@ body {
 
       <p>${l.maisdetalhes || ""}</p>
 
-      <p>
-      ${l.email ? `<strong>Contato:</strong> ${l.email}<br>` : ""}
-      ${l.link ? `<a href="${l.link}" target="_blank">Site do Projeto</a>` : ""}
-      </p>
+      ${l.email ? `<p><strong>Contato:</strong> ${l.email}</p>` : ""}
+      ${l.link ? `<p><a href="${l.link}" target="_blank">Site do Projeto</a></p>` : ""}
     `;
 
     modal.style.display = "block";
