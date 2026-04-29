@@ -156,6 +156,55 @@
 body {
   padding-top: 60px;
 }
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+  background: var(--card-bg);
+  margin: 5% auto;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 8px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content p {
+  white-space: pre-line;
+}
+
+.modal-content a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.modal-content a:hover {
+  text-decoration: underline;
+}
+
+.modal-content img {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.fechar {
+  float: right;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
   </style>
 </head>
 <body>
@@ -231,7 +280,7 @@ body {
       container.innerHTML = "";
 
       dados.forEach(l => {
-      const { thumb, nome, autor, descricao, link } = l;
+      const { thumb, nome, autor, descricao, link, maisdetalhes, email, imagemgrande, video } = l;
         if (!nome) return;
         const card = document.createElement("div");
         card.className = "card";
@@ -241,8 +290,12 @@ body {
             <h3>${nome}</h3>
             ${autor ? `<p>${autor}</p>` : ""}
             <p>${descricao || ""}</p>
-            ${link ? `<a href="${link}" target="_blank">Ver mais</a>` : ""}
+            <a href="#" class="btn-detalhes">Ver detalhes</a>
           </div>`;
+          card.querySelector(".btn-detalhes").addEventListener("click", (e) => {
+          e.preventDefault();
+          abrirModal(l);
+        });
         container.appendChild(card);
       });
     }
@@ -359,6 +412,50 @@ body {
         card.style.display = texto.includes(termo) ? "block" : "none";
       });
     }
+
+    // Modal Overlay
+    function abrirModal(l) {
+    const modal = document.getElementById("modal");
+    const body = document.getElementById("modal-body");
+
+    body.innerHTML = `
+      <h2>${l.nome}</h2>
+
+      ${l.autor ? `<p><strong>${l.autor}</strong></p>` : ""}
+
+      ${l.imagemgrande ? `<img src="${l.imagemgrande}">` : ""}
+
+      ${l.video ? `<iframe src="${l.video.replace("watch?v=", "embed/")}" allowfullscreen></iframe>` : ""}
+
+      <p>${l.maisdetalhes || ""}</p>
+
+      ${l.email ? `<p><strong>Contato:</strong> ${l.email}</p>` : ""}
+      ${l.link ? `<p><a href="${l.link}" target="_blank">Site do Projeto</a></p>` : ""}
+    `;
+
+    modal.style.display = "block";
+  }
+
+  // fechar modal
+  window.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".fechar").onclick = () => {
+      document.getElementById("modal").style.display = "none";
+    };
+  });
+  // fechar clicando fora
+  window.onclick = (e) => {
+  const modal = document.getElementById("modal");
+  if (e.target === modal) modal.style.display = "none";
+  };
+
   </script>
+
+  <div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="fechar">&times;</span>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
 </body>
 </html>
