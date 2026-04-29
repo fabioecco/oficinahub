@@ -176,6 +176,8 @@ body {
   width: 90%;
   max-width: 600px;
   border-radius: 8px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .modal-content img {
@@ -423,6 +425,11 @@ body {
       document.getElementById("modal").style.display = "none";
     };
   });
+  // fechar clicando fora
+  window.onclick = (e) => {
+  const modal = document.getElementById("modal");
+  if (e.target === modal) modal.style.display = "none";
+  };
 
   </script>
 
