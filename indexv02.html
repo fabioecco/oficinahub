@@ -421,6 +421,8 @@ body {
     body.innerHTML = `
       <h2>${l.nome}</h2>
 
+      ${l.autor ? `<p><strong>${l.autor}</strong></p>` : ""}
+
       ${l.imagemgrande ? `<img src="${l.imagemgrande}">` : ""}
 
       ${l.video ? `<iframe src="${l.video.replace("watch?v=", "embed/")}" allowfullscreen></iframe>` : ""}
