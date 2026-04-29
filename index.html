@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oficina do Playtest Teste</title>
+  <title>Oficina do Playtest Hub</title>
   <style>
     :root {
       --bg: #121212;
@@ -122,75 +122,121 @@
       border-radius: 8px;
       margin-top: 1rem;
     }
+
+    .menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: var(--card-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  z-index: 1000;
+  flex-wrap: wrap; /* <- ESSENCIAL */
+}
+
+.menu a {
+  flex: 1 1 auto; /* <- FAZ OS ITENS SE AJUSTAREM */
+  text-align: center;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.2rem;
+  white-space: nowrap;
+}
+
+.menu a:hover {
+  background: #333;
+  border-radius: 4px;
+}
+
+/* Evita que o conteúdo fique escondido atrás do menu */
+body {
+  padding-top: 60px;
+}
   </style>
 </head>
 <body>
 
+  <nav class="menu">
+  <a href="#encontros">Encontros</a>
+  <a href="#prototipos">Protótipos</a>
+  <a href="#financiamento">Financiamento</a>
+  <a href="#eventos">Eventos</a>
+</nav>
+
   <header>
-    <p><img src="oficinalogo.png" alt="" width="400" height="auto"><br>
+    <p><img src="oficinalogo.png" alt="" width="380" height="auto"><br>
       Comunidade brasileira de autores de jogos de tabuleiro modernos.<br>Somos um grupo aberto, gratuito, coletivo e colaborativo.</p>
   </header>
 
-  <section id="encontros">
-    <h2>Próximos Encontros</h2>
-    <div class="info-card">
-      <p><strong>📅 Data:</strong> Todos os sábados às 10:30h</p>
-      <p><strong>📍 Local:</strong> RED Jogos - Av. Treze de Maio, 23 - Loja 2508 - Centro, Rio de Janeiro - RJ</p>
-      <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!..."></iframe> -->
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.1114489186775!2d-43.17991362386842!3d-22.90925977925336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997f61003320d5%3A0xb4c5c1b3cafe0342!2sRED%20jogos!5e0!3m2!1spt-BR!2sbr!4v1761092520095!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-  </section>
-
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Buscar por autor ou jogo..." oninput="filtrar()">
+    <input type="text" id="searchInput" placeholder="Buscar por autor, jogo ou eventos..." oninput="filtrar()">
   </div>
+
+  <section id="encontros">
+    <h2>Encontros de Playtest</h2>
+    <div class="grid" id="lista-encontros"></div>
+  </section>
 
   <section id="prototipos">
     <h2>Protótipos</h2>
     <div class="grid" id="lista-prototipos"></div>
   </section>
 
-  <section id="publicados">
-    <h2>Jogos Publicados</h2>
-    <div class="grid" id="lista-publicados"></div>
+  <section id="financiamento">
+    <h2>Jogos em Financiamento</h2>
+    <div class="grid" id="lista-financiamento"></div>
   </section>
 
   <section id="eventos">
-    <h2>Eventos no Rio de Janeiro</h2>
+    <h2>Eventos</h2>
     <div class="grid" id="lista-eventos"></div>
   </section>
 
   <footer>
     <p>Oficina do Playtest</p>
     <p>
-      <a href="#">Instagram</a> |
-      <a href="#">Discord</a> |
-      <a href="#">Facebook</a> |
-      <a href="#">Email</a>
+      <a href="https://www.instagram.com/oficinadoplaytest/" target="_blank">Instagram</a> |
+      <a href="https://discord.gg/5dN33M4xbd" target="_blank">Discord</a> |
+      <a href="https://www.facebook.com/groups/OficinadoPlaytest/" target="_blank">Facebook</a> |
+      <a href="#" target="_blank">Contato</a>
     </p>
   </footer>
 
-  <script>
-    // 👉 substitua pelos seus links de planilhas
-    const sheetPrototipos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQc769I0vqguohlzWJxM9CtTEGzbF_2r0S37TkY-4FJ5jtCSvuF8gOR8AW92SRyVRh2xjHw8XaajLBx/pub?output=csv";
-    const sheetPublicados = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSqmKUATMpKeeFJMjg5WVm3grVj2EguvRvp-J4pxN9rASP2Jv1_JhH19YbBMVm8DG7m2l3dz9pB1Q0Y/pub?output=csv";
-    const sheetEventos = "";
+  <!-- Papa Parse -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-    // Função para carregar e montar cards a partir de CSV
+  <script>
+    // Substitua pelos seus links de planilhas
+    const sheetEncontros = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8w4hSCmG1ehAFVV86xrgQdVHjusAOfeBCBcE1d7AHa2a8l3nEMHFv9Yin3ApmzETVH9hGaSQI_59J/pub?output=csv";
+    const sheetPrototipos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQc769I0vqguohlzWJxM9CtTEGzbF_2r0S37TkY-4FJ5jtCSvuF8gOR8AW92SRyVRh2xjHw8XaajLBx/pub?output=csv";
+    const sheetFinanciamento = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQpP-CQFhmj-0XH7Pp4aUalXf44js1xbXAcZjnmJk1lQRdSyLVYEU6kIZEQ5sv-hEcdJ-BAiXBnDH0W/pub?output=csv";
+    const sheetEventos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTh7iBk8uRDDD1iLaG2q4PauQCQSkosEnk-7QRuE4kIh6IPlBZM_e0gKBzS-tXdtw1Es0bjygjp8Uw/pub?output=csv";
+
+    // Cards de Prototipos e Financiamentos puxando da planilha/CSV
     async function carregarCSV(url, containerId) {
       const res = await fetch(url);
       const text = await res.text();
-      const linhas = text.split("\n").slice(1); // Ignora cabeçalho
+      const linhas = Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true
+    });
+      const dados = linhas.data.sort((a, b) => {
+      return (a.nome || "").localeCompare(b.nome || "", "pt-BR", { sensitivity: "base" });
+    });
       const container = document.getElementById(containerId);
       container.innerHTML = "";
 
-      linhas.forEach(l => {
-        const [thumb, nome, autor, descricao, link] = l.split(",");
+      dados.forEach(l => {
+      const { thumb, nome, autor, descricao, link } = l;
         if (!nome) return;
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <img src="${thumb || 'https://via.placeholder.com/400x200?text=Sem+Imagem'}" alt="">
+          <img src="${thumb || 'prototipo.png'}" alt="">
           <div class="card-content">
             <h3>${nome}</h3>
             ${autor ? `<p>${autor}</p>` : ""}
@@ -201,10 +247,109 @@
       });
     }
 
+    // Cards de Eventos puxando da planilha/CSV
+    async function carregarCSVe(url, containerId) {
+      const res = await fetch(url);
+      const text = await res.text();
+      const linhas = Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true
+    });
+
+    // Função para converter DD/MM/AAAA em Date
+  function parseData(dataStr) {
+    if (!dataStr) return null;
+    const partes = dataStr.split("/");
+    if (partes.length === 3) {
+      const [dia, mes, ano] = partes;
+      return new Date(ano, mes - 1, dia);
+    }
+    const d = new Date(dataStr);
+    return isNaN(d) ? null : d;
+  }
+
+  // Ordenar por data
+  const dados = linhas.data
+    .map(l => {
+      return { ...l, dataObj: parseData(l.data) };
+    })
+    .sort((a, b) => {
+    const hoje = new Date();
+
+    const aPassado = a.dataObj && a.dataObj < hoje;
+    const bPassado = b.dataObj && b.dataObj < hoje;
+
+    // Passados vão pro final
+    if (aPassado && !bPassado) return 1;
+    if (!aPassado && bPassado) return -1;
+
+    // Dentro do mesmo grupo, ordena por data
+    return (a.dataObj || 0) - (b.dataObj || 0);
+  });
+
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      const hoje = new Date();
+
+      dados.forEach(l => {
+      const { thumb, nome, data, horario, local, descricao, link } = l;
+        if (!nome) return;
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${thumb || 'evento.png'}" 
+     style="${l.dataObj && l.dataObj < hoje ? 'filter: grayscale(100%); opacity: 0.6;' : ''}">
+          <div class="card-content">
+            <h3>${nome}</h3>
+            ${data ? `<p>${data}` : "<p>10 hs"}
+            ${horario ? `${horario}</p>` : "</p>"}
+            <p>${descricao || ""}</p>
+            ${local ? `<p>${local}</p>` : ""}
+            ${link ? `<a href="${link}" target="_blank">Ver mais</a>` : ""}
+          </div>`;
+        container.appendChild(card);
+      });
+    }
+
+    // Cards de Encontros de Playtest puxando da planilha/CSV
+    async function carregarCSVp(url, containerId) {
+      const res = await fetch(url);
+      const text = await res.text();
+      const linhas = Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true
+    });
+      const dados = linhas.data.sort((a, b) => {
+      return (a.nome || "").localeCompare(b.nome || "", "pt-BR", { sensitivity: "base" });
+    });
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      dados.forEach(l => {
+      const { thumb, nome, data, horario, local, descricao, link } = l;
+        if (!nome) return;
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${thumb || 'semimagem.png'}" alt="">
+          <div class="card-content">
+            <h3>${nome}</h3>
+            ${data ? `<p>${data}` : "<p>10 hs"}
+            ${horario ? `${horario}</p>` : "</p>"}
+            <p>${descricao || ""}</p>
+            ${local ? `<p>${local}</p>` : ""}
+            ${link ? `<a href="${link}" target="_blank">Ver mais</a>` : ""}
+          </div>`;
+        container.appendChild(card);
+      });
+    }
+
     // Carregar todas as seções
+    carregarCSVp(sheetEncontros, "lista-encontros");
     carregarCSV(sheetPrototipos, "lista-prototipos");
-    carregarCSV(sheetPublicados, "lista-publicados");
-    carregarCSV(sheetEventos, "lista-eventos");
+    carregarCSV(sheetFinanciamento, "lista-financiamento");
+    carregarCSVe(sheetEventos, "lista-eventos");
 
     // Função de filtro por autor ou jogo
     function filtrar() {
