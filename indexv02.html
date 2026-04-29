@@ -417,7 +417,10 @@ body {
 
       <p>${l.maisdetalhes || ""}</p>
 
-      ${l.email ? `<p><strong>Contato:</strong> ${l.email}</p>` : ""}
+      <p>
+      ${l.email ? `<strong>Contato:</strong> ${l.email}<br>` : ""}
+      ${l.link ? `<strong>Site ou Rede Social</strong> ${l.link}` : ""}
+      </p>
     `;
 
     modal.style.display = "block";
