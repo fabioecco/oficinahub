@@ -205,6 +205,28 @@ body {
   font-size: 1.5rem;
   cursor: pointer;
 }
+
+.apoiadores-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.apoiadores-logos img {
+  max-height: 60px;
+  max-width: 150px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.8;
+  transition: 0.2s;
+}
+
+.apoiadores-logos img:hover {
+  filter: none;
+  opacity: 1;
+}
   </style>
 </head>
 <body>
@@ -214,7 +236,7 @@ body {
   <a href="#prototipos">Protótipos</a>
   <a href="#financiamento">Financiamento</a>
   <a href="#eventos">Eventos</a>
-</nav>
+  </nav>
 
   <header>
     <p><img src="oficinalogo.png" alt="" width="380" height="auto"><br>
@@ -231,7 +253,7 @@ body {
     <div style="width:100%; background:#1f1f1f; border-top:1px solid #333; margin-top:1.5rem; padding:0.8rem 1rem; box-sizing:border-box; text-align:center; color:#ccc; font-size:0.9rem;">
   Participe também da Oficina do Playtest Online pelo
   <a href="https://discord.gg/5dN33M4xbd" target="_blank" style="color:#ff6600; text-decoration:none; font-weight:bold;">Discord</a>. 
-  Segunda de 20:30h às 22:30h e Quarta de 21h às 23h.
+  Segundas de 20:30h às 22:30h e Quartas de 21h às 23h.
 </div>
   </section>
 
@@ -248,6 +270,15 @@ body {
   <section id="eventos">
     <h2>Eventos</h2>
     <div class="grid" id="lista-eventos"></div>
+  </section>
+
+  <section id="apoiadores">
+  <h2>Apoiadores</h2>
+  <div class="apoiadores-logos">
+    <img src="logoparceiro01.png" alt="">
+    <img src="logoparceiro02.png" alt="">
+    <img src="logoparceiro03.png" alt="">
+  </div>
   </section>
 
   <footer>
